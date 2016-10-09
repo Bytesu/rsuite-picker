@@ -1,25 +1,20 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import ReactDOM from 'react-dom';
-import { on, off } from 'dom-lib';
-import FormGroupMixin from './FormGroupMixin';
 import Container from './Container';
 import Dropdown from './Dropdown';
 
+import FormGroupMixin from './mixins/FormGroupMixin';
+import PickerMixin from './mixins/PickerMixin';
+
 const Picker = React.createClass({
-    mixins: [FormGroupMixin],
+    mixins: [FormGroupMixin, PickerMixin],
     propTypes: {
         options: PropTypes.array,
         onChange: PropTypes.func,
         height: PropTypes.number,
         dropup: PropTypes.bool,
         value: PropTypes.any    // default value
-    },
-    getDefaultProps() {
-        return {
-            height: 320,
-            options: []
-        };
     },
     formatOption(option) {
         if (typeof (option) === 'string') {
@@ -87,20 +82,6 @@ const Picker = React.createClass({
             currentSelected: this.getOptionByValue(groupValue || value, options) || this.getDefaultSelect(options)
         });
     },
-
-    toggleDropdown() {
-
-        this.setState({ active: !this.state.active });
-    },
-
-    handleDocumentClick(e) {
-        if (!ReactDOM.findDOMNode(this).contains(e.target)) {
-            this.setState({
-                active: false
-            });
-        }
-    },
-
     handleSelect(item, active = false) {
         const { onChange } = this.props;
         const { onChange: onGroupChange } = this.getFormGroup();
@@ -114,46 +95,12 @@ const Picker = React.createClass({
         onChange && onChange(currentSelectedValue);
         onGroupChange && onGroupChange(item.value);
     },
-
-    autoAdjustDropdownPosition() {
-        const { height, dropup } = this.props;
-        const { active } = this.state;
-
-        if (dropup) {
-            this.setState({ dropup });
-            return;
-        }
-
-        let el = ReactDOM.findDOMNode(this);
-        if (el.getBoundingClientRect().bottom + height > window.innerHeight
-            && el.getBoundingClientRect().top - height > 0
-        ) {
-            this.setState({ dropup: true });
-        } else {
-            this.setState({ dropup: false });
-        }
-    },
-
-    componentDidMount() {
-        this.autoAdjustDropdownPosition();
-
-        this._eventScroll = on(document, 'scroll', this.autoAdjustDropdownPosition);
-        this._eventResize = on(window, 'resize', this.autoAdjustDropdownPosition);
-        this._eventClick = on(document, 'click', this.handleDocumentClick);
-    },
-
-    componentWillUnmount() {
-        this._eventScroll.off();
-        this._eventResize.off();
-        this._eventClick.off();
-    },
-
     render() {
 
         const { options, height, className, inverse} = this.props;
         const { active, currentSelected, dropup } = this.state;
         const formattedOptions = options.map(this.formatOption);
-        const classes = classNames('rsuitePicker', className, {
+        const classes = classNames('rsuite-Picker', className, {
             'expand': active,
             'inverse': inverse
         });
@@ -163,7 +110,6 @@ const Picker = React.createClass({
                 <Container
                     placeholder={currentSelected.label}
                     onClick={this.toggleDropdown}
-
                     />
                 { active && <Dropdown
                     value={currentSelected.value}

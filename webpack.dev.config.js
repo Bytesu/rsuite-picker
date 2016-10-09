@@ -19,7 +19,7 @@ const config = {
         }),
         new ExtractTextPlugin('[name].css'),
         new HtmlwebpackPlugin({
-            title: 'Rsuite Picker',
+            title: 'RSuite Picker',
             filename: 'index.html',
             template: 'examples/index.html',
             inject: true,

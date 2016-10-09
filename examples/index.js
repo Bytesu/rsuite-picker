@@ -8,6 +8,8 @@ import './style.less';
 
 import SimpleExample from './SimpleExample';
 import OptionGroupExample from './OptionGroupExample';
+import CustomLabelExample from './CustomLabelExample';
+import MultipleExample from './MultipleExample';
 
 const App = React.createClass({
     render() {
@@ -18,7 +20,7 @@ const App = React.createClass({
                     <div className="container">
                         <Navbar.Header>
                             <Navbar.Brand>
-                                <a href="#"><span className="prefix">R</span>Suite  Table</a>
+                                <a href="#"><span className="prefix">R</span>Suite  Picker</a>
                             </Navbar.Brand>
                             <Navbar.Toggle />
                         </Navbar.Header>
@@ -31,8 +33,8 @@ const App = React.createClass({
                 </Header>
 
                 <div className="container">
-                    <h2>The basics</h2>
-                    <p>Single select boxes</p>
+
+                    <h2>Single pickers</h2>
                     <Row>
                         <Col md={6}>
                             <SimpleExample />
@@ -42,7 +44,7 @@ const App = React.createClass({
                         </Col>
                     </Row>
 
-                    <p>Option group support</p>
+                    <h2>Option group support</h2>
                     <Row>
                         <Col md={6}>
                             <OptionGroupExample />
@@ -52,10 +54,27 @@ const App = React.createClass({
                         </Col>
                     </Row>
 
+                    <h2>Custom label</h2>
+                    <Row>
+                        <Col md={6}>
+                            <CustomLabelExample />
+                        </Col>
+                        <Col  md={6}>
+
+                        </Col>
+                    </Row>
+                    <h2>Multiple pickers</h2>
+                     <Row>
+                        <Col md={6}>
+                            <MultipleExample />
+                        </Col>
+                        <Col  md={6}>
+
+                        </Col>
+                    </Row>
+
                 </div>
-
             </div>
-
         );
     }
 });
