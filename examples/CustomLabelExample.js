@@ -3,8 +3,9 @@ import React from 'react';
 import Picker from '../src/Picker';
 import userGroups from './data/userGroups';
 
-const OptionGroupExample = React.createClass({
+export default React.createClass({
     render() {
+
         const options = userGroups.map((group) => {
             let items = group.items || [];
             return {
@@ -13,7 +14,7 @@ const OptionGroupExample = React.createClass({
                 items: items.map((item) => {
                     return {
                         value: item.value,
-                        label: <div><i className="fa fa-user"></i>  {item.label}</div>
+                        label: <div><i className="fa fa-user"></i>  {item.label} </div>
                     };
                 })
             };
@@ -25,4 +26,3 @@ const OptionGroupExample = React.createClass({
     }
 });
 
-export default OptionGroupExample;

@@ -77,7 +77,7 @@ const DropdownMenu = React.createClass({
     },
     renderCheckList() {
 
-        const { items, onClick } = this.props;
+        const { items, onClick, onClearSelected } = this.props;
         const { checkedItems = []} = this.state;
         const options = items.filter((item) => {
             let flag = true;
@@ -100,7 +100,7 @@ const DropdownMenu = React.createClass({
                 let newItem = this.getCheckedItem(item);
                 return <CheckItem key={idx} check={newItem.check } label={newItem.label} onClick={onClick.bind(null, newItem) } />;
             }));
-            options.unshift(<div key={Math.random() * 1E18}><a className="btnClear">Clear selected</a></div>);
+            options.unshift(<div key={Math.random() * 1E18}><a onClick={onClearSelected} className="btnClear">Clear selected</a></div>);
         }
 
         return options;

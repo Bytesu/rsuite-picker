@@ -98,7 +98,11 @@ const CheckListPicker = React.createClass({
         });
         onChange && onChange(nextCheckedItem.map(i => i.value));
     },
-
+    handleClearSelected() {
+        this.setState({
+            currentCheckedItems: []
+        });
+    },
     render() {
         const { options, height, getPlaceholder } = this.props;
         const { active, currentCheckedItems, dropup } = this.state;
@@ -111,6 +115,7 @@ const CheckListPicker = React.createClass({
                     options={updatedCheckList}
                     height={height}
                     onSelect={this.handleCheck}
+                    onClearSelected={this.handleClearSelected}
                     dropup={dropup}
                     ref="dropdown"
                     multiple

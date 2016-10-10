@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Header, Navbar, Nav, Row, Col } from 'rsuite';
+import Markdown from './Markdown';
 
 import '../src/less/index.less';
-import './style.less';
+import './less/index.less';
 
 import SimpleExample from './SimpleExample';
 import OptionGroupExample from './OptionGroupExample';
@@ -33,45 +34,58 @@ const App = React.createClass({
                 </Header>
 
                 <div className="container">
-
+                    <p className="sub-title">A react component for replacing default select and dropdown.</p>
                     <h2>Single pickers</h2>
                     <Row>
                         <Col md={6}>
-                            <SimpleExample />
+                            <Markdown>
+                                {require('./SimpleExample.md') }
+                            </Markdown>
                         </Col>
                         <Col  md={6}>
-
+                            <SimpleExample />
                         </Col>
                     </Row>
 
                     <h2>Option group support</h2>
                     <Row>
                         <Col md={6}>
-                            <OptionGroupExample />
+                            <Markdown>
+                                {require('./OptionGroupExample.md') }
+                            </Markdown>
                         </Col>
                         <Col  md={6}>
-
+                            <OptionGroupExample />
                         </Col>
                     </Row>
 
                     <h2>Custom label</h2>
                     <Row>
                         <Col md={6}>
+                            <Markdown>
+                                {require('./CustomLabelExample.md') }
+                            </Markdown>
+                        </Col>
+                        <Col  md={6}>
                             <CustomLabelExample />
                         </Col>
-                        <Col  md={6}>
-
-                        </Col>
                     </Row>
+
                     <h2>Multiple pickers</h2>
-                     <Row>
+                    <Row>
                         <Col md={6}>
+                            <Markdown>
+                                {require('./MultipleExample.md') }
+                            </Markdown>
+                        </Col>
+                        <Col  md={6}>
                             <MultipleExample />
                         </Col>
-                        <Col  md={6}>
-
-                        </Col>
                     </Row>
+
+                    <Markdown>
+                        {require('./props.md') }
+                    </Markdown>
 
                 </div>
             </div>

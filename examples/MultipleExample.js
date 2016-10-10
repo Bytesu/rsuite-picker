@@ -3,7 +3,7 @@ import React from 'react';
 import Picker from '../src';
 import userGroups from './data/userGroups';
 
-const MultipleExample = React.createClass({
+export default React.createClass({
     render(){
         return (
             <Picker options={userGroups} multiple />
@@ -11,4 +11,3 @@ const MultipleExample = React.createClass({
     }
 });
 
-export default MultipleExample;

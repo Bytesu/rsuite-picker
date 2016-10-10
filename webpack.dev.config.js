@@ -1,8 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
+const marked = require('marked');
+const hl = require('highlight.js');
 
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const codeRenderer = function (code, lang) {
+    lang = lang === 'js' ? 'javascript' : lang;
+    if (lang === 'html') {
+        lang = 'xml';
+    }
+
+    var hlCode = lang ? hl.highlight(lang, code).value : hl.highlightAuto(code).value;
+
+    return `<div class="doc-highlight"><pre><code class="${lang || ''}">${hlCode}</code></pre></div>`;
+};
+
+const renderer = new marked.Renderer();
+
+renderer.code = codeRenderer;
 
 const config = {
     entry: [
@@ -43,8 +60,14 @@ const config = {
             {
                 test: /\.(jpg|png)$/,
                 loader: 'url?limit=8192'
+            }, {
+                test: /\.md$/,
+                loader: 'html!markdown'
             }
         ]
+    },
+    markdownLoader: {
+        renderer: renderer
     }
 };
 

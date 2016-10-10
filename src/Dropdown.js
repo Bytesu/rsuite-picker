@@ -124,7 +124,7 @@ const Dropdown = React.createClass({
 
     render() {
 
-        const { value, dropup, height, className, multiple  } = this.props;
+        const { value, dropup, height, className, multiple, onClearSelected  } = this.props;
         const classes = classNames('selectDropdown', {
             'checkListDropdown' : multiple,
             dropup
@@ -136,6 +136,7 @@ const Dropdown = React.createClass({
                 <DropdownMenu
                     multiple={multiple}
                     selected={value}
+                    onClearSelected={onClearSelected}
                     items={this.getDisplayOptions() }
                     onClick={this.handleListClick }
                     height={height }

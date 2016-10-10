@@ -1,25 +1,31 @@
 {
-  "name": "dmp-fe",
-  "version": "0.2.0",
-  "description": "Hypers DMP",
+  "name": "rsuite-picker",
+  "version": "0.0.1",
+  "description": "A react component for replacing default select and dropdown.",
   "scripts": {
-    "kill": "kill -9 `ps -ef|grep webpack|awk '{print $2}'`",
     "dev": "NODE_ENV=development webpack-dev-server --hot --inline --progress --colors --port 3000 --host 0.0.0.0 --config webpack.dev.config.js",
-    "build": "rm -rf build && NODE_ENV=production webpack --progress --colors  && cp -R resources build/resources  && cp -R api-data build/api-data",
+    "build": "rm -rf lib && babel src --out-dir lib",
     "test": "karma start"
   },
-  "author": "Hypers",
-  "license": "Hypers",
+  "main": "lib/index.js",
+  "author": "Simon Guo <simonguo.2009@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "classnames": ">=2.0.0",
     "dom-lib": "0.0.14",
-    "lodash": "^4.11.1",
     "react": "^0.14.2",
     "react-dom": "^0.14.2"
   },
+  "keywords": [
+    "picker",
+    "select",
+    "dropdown",
+    "react",
+    "rsuite"
+  ],
   "repository": {
     "type": "git",
-    "url": "git@git.hypers.com:dmp/dmp-fe.git"
+    "url": "git@github.com:rsuite/rsuite-picker.git"
   },
   "devDependencies": {
     "autoprefixer": "^6.1.0",
@@ -42,6 +48,10 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "highlight.js": "^9.4.0",
+    "markdown-loader": "^0.1.7",
+    "marked": "^0.3.5",
+    "html-loader": "^0.4.3"
   }
 }
