@@ -23,7 +23,6 @@ renderer.code = codeRenderer;
 
 const config = {
     entry: [
-        'webpack/hot/dev-server',
         path.join(__dirname, 'examples/index')
     ],
     output: {
@@ -42,6 +41,7 @@ const config = {
             inject: true,
             hash: true
         }),
+        new webpack.BannerPlugin(`Last update: ${new Date().toString()}`)
     ],
     module: {
         loaders: [
@@ -49,7 +49,6 @@ const config = {
             {
                 test: /\.js$/,
                 loaders: [
-                    'react-hot',
                     'babel?babelrc'
                 ],
                 exclude: /node_modules/
