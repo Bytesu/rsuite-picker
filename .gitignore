@@ -36,6 +36,7 @@ node_modules
 .vscode
 .DS_Store
 build
+lib
 
 .tern-project
 assets

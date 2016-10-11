@@ -27,7 +27,7 @@ const App = React.createClass({
                         </Navbar.Header>
                         <Navbar.Collapse>
                             <Nav pullRight>
-                                <Nav.Item  href="https://github.com/rsuite/rsuite-table">GitHub</Nav.Item>
+                                <Nav.Item  href="https://github.com/rsuite/rsuite-picker">GitHub</Nav.Item>
                             </Nav>
                         </Navbar.Collapse>
                     </div>
@@ -83,9 +83,15 @@ const App = React.createClass({
                         </Col>
                     </Row>
 
+                    <hr />
+                    <a href="https://github.com/rsuite/rsuite-picker/tree/master/examples" target="_blank">
+                        More Examples
+                    </a>
+
                     <Markdown>
                         {require('./props.md') }
                     </Markdown>
+
 
                 </div>
             </div>
