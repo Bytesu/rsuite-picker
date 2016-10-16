@@ -1,9 +1,24 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import ReactDOMServer from 'react-dom/server';
 import classNames from 'classnames';
 import SearchBar from './SearchBar';
 import DropdownMenu from './DropdownMenu';
+
+
+function reactToString(element) {
+    const nodes = [];
+    function recursion(element) {
+        React.Children.forEach(element.props.children, (child) => {
+            if (React.isValidElement(child)) {
+                recursion(child);
+            } else if (typeof child === 'string') {
+                nodes.push(child);
+            }
+        });
+    }
+    recursion(element);
+    return nodes;
+}
 
 const Dropdown = React.createClass({
     _displayOptionsNoGroup: [],
@@ -15,7 +30,6 @@ const Dropdown = React.createClass({
         dropup: PropTypes.bool,
         multiple: PropTypes.bool
     },
-
     getDefaultProps() {
         return {
             options: []
@@ -37,17 +51,17 @@ const Dropdown = React.createClass({
     shouldDisplay(item) {
 
         const { searchText } = this.state;
+
         if (typeof item.label === 'string') {
             return ~item.label.toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase());
-        }
-
-        if (React.isValidElement(item.label)) {
-            return ~ReactDOMServer.renderToStaticMarkup(item.label).toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase());
+        } else if (React.isValidElement(item.label)) {
+            const nodes = reactToString(item.label);
+            return ~nodes.join('').toLocaleLowerCase().indexOf(searchText.toLocaleLowerCase());
         }
 
         return false;
     },
-    handleListClick(item) {
+    handleListSelect(item) {
         const { onSelect } = this.props;
         onSelect && onSelect(item);
     },
@@ -60,51 +74,10 @@ const Dropdown = React.createClass({
             }
         }
     },
-    handleKeyDown(event) {
-
-        const { onSelect, value, multiple } = this.props;
-
-        if(multiple){
-            return ;
-        }
-
-        this._displayOptionsNoGroup = [];
-        this.findNextOption(this.getDisplayOptions());
-
-        const keyCode = event.keyCode;
-        const options = this._displayOptionsNoGroup;
-
-        let activeIndex = -1;
-        let activeItem = null;
-        let showDorpdown = true;
-
-        for (let i = 0; i < options.length; i++) {
-            if (options[i].value === value) {
-                activeIndex = i;
-            }
-        }
-
-        switch (keyCode) {
-            //down
-            case 40:
-                activeItem = options[activeIndex + 1];
-                break;
-            //up
-            case 38:
-                activeItem = options[activeIndex - 1];
-                break;
-            //enter
-            case 13:
-                activeItem = options[activeIndex];
-                showDorpdown = false;
-                break;
-            default:
-                break;
-        }
-
-        activeItem && onSelect && onSelect(activeItem, showDorpdown);
+    focusNextMenuItem() {
+        const { menu } = this.refs;
+        menu.focusNextItem && menu.focusNextItem();
     },
-
     getDisplayOptions() {
         const { options } = this.props;
         return options.map(o => {
@@ -124,22 +97,27 @@ const Dropdown = React.createClass({
 
     render() {
 
-        const { value, dropup, height, className, multiple, onClearSelected  } = this.props;
+        const { value, dropup, height, className, multiple, onClearSelected, onKeyDown } = this.props;
         const classes = classNames('selectDropdown', {
-            'checkListDropdown' : multiple,
+            'checkListDropdown': multiple,
             dropup
         }, className);
 
         return (
-            <div className={ classes }  onKeyDown={this.handleKeyDown}>
-                <SearchBar  onChange={this.handleSearchTextChange} value={this.state.searchText} />
+            <div className={classes}  >
+                <SearchBar
+                    onKeyDown={onKeyDown}
+                    onChange={this.handleSearchTextChange}
+                    value={this.state.searchText} />
                 <DropdownMenu
+                    ref='menu'
                     multiple={multiple}
                     selected={value}
                     onClearSelected={onClearSelected}
-                    items={this.getDisplayOptions() }
-                    onClick={this.handleListClick }
-                    height={height }
+                    items={this.getDisplayOptions()}
+                    onSelect={this.handleListSelect}
+                    onClose={this.props.onClose}
+                    height={height}
                     />
             </div>
         );

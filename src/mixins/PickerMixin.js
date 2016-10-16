@@ -11,15 +11,18 @@ const PickerMixin = {
     },
     handleDocumentClick(e) {
         if (!ReactDOM.findDOMNode(this).contains(e.target)) {
-            this.setState({ active: false});
+            this.setState({ open: false });
         }
     },
+    handleClose() {
+        this.setState({ open: false });
+    },
     toggleDropdown() {
-        this.setState({ active: !this.state.active });
+        this.setState({ open: !this.state.open });
     },
     autoAdjustDropdownPosition() {
         const { height, dropup } = this.props;
-        const { active } = this.state;
+        const { open } = this.state;
         if (dropup) {
             this.setState({ dropup });
             return;
@@ -31,6 +34,28 @@ const PickerMixin = {
             this.setState({ dropup: true });
         } else {
             this.setState({ dropup: false });
+        }
+    },
+    handleKeyDown(event) {
+
+        const { dropdown } = this.refs;
+
+        switch (event.keyCode) {
+            //down
+            case 40:
+                if (!this.state.open) {
+                    this.toggleDropdown();
+                } else if (dropdown.focusNextMenuItem) {
+                    dropdown.focusNextMenuItem();
+                }
+                event.preventDefault();
+                break;
+            //esc | tab
+            case 27:
+            case 9:
+                this.handleClose(event);
+            default:
+
         }
     },
     componentDidMount() {

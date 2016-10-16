@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import ReactDOM from 'react-dom';
-import Container from './Container';
+import DropdownToggle from './DropdownToggle';
 import Dropdown from './Dropdown';
 
 import FormGroupMixin from './mixins/FormGroupMixin';
@@ -69,7 +69,7 @@ const Picker = React.createClass({
         const { value, options } = this.props;
 
         return {
-            active: false,
+            open: false,
             currentSelected: this.getOptionByValue(groupValue || value, options) || this.getDefaultSelect(options)
         };
     },
@@ -78,16 +78,16 @@ const Picker = React.createClass({
         const { value, options } = nextProps;
         const { value: groupValue } = this.getFormGroup();
         this.setState({
-            active: false,
+            open: false,
             currentSelected: this.getOptionByValue(groupValue || value, options) || this.getDefaultSelect(options)
         });
     },
-    handleSelect(item, active = false) {
+    handleSelect(item, open = false) {
         const { onChange } = this.props;
         const { onChange: onGroupChange } = this.getFormGroup();
         this.setState({
             currentSelected: item,
-            active
+            open
         });
 
         let currentSelectedValue = item.value;
@@ -95,28 +95,33 @@ const Picker = React.createClass({
         onChange && onChange(currentSelectedValue);
         onGroupChange && onGroupChange(item.value);
     },
+
     render() {
 
         const { options, height, className, inverse} = this.props;
-        const { active, currentSelected, dropup } = this.state;
+        const { open, currentSelected, dropup } = this.state;
         const formattedOptions = options.map(this.formatOption);
         const classes = classNames('rsuite-Picker', className, {
-            'expand': active,
+            'expand': open,
             'inverse': inverse
         });
 
         return (
             <div className={classes}  >
-                <Container
+                <DropdownToggle
                     placeholder={currentSelected.label}
                     onClick={this.toggleDropdown}
+                    onKeyDown={this.handleKeyDown}
                     />
-                { active && <Dropdown
+                {open && <Dropdown
+                    ref='dropdown'
                     value={currentSelected.value}
                     options={formattedOptions}
                     height={height}
                     onSelect={this.handleSelect}
+                    onKeyDown={this.handleKeyDown}
                     dropup={dropup}
+                    onClose={this.handleClose}
                     />
                 }
             </div>

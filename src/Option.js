@@ -2,7 +2,8 @@ import React from 'react';
 
 const Option = React.createClass({
     propTypes: {
-        select: React.PropTypes.bool,
+        selected: React.PropTypes.bool,
+        value: React.PropTypes.any,
         label: React.PropTypes.oneOfType([
             React.PropTypes.string,
             React.PropTypes.element
@@ -10,11 +11,20 @@ const Option = React.createClass({
         onClick: React.PropTypes.func
     },
     render() {
-        const { select, label, onClick } = this.props;
+        const { selected, label, value,  onClick, ...props } = this.props;
         return (
-            <div className={'selectOption' + (select ? ' active' : '') } onClick={onClick}>
+            <a
+                {...props}
+                className={'selectOption' + (selected ? ' active' : '')}
+                href=''
+                role="menuitem"
+                data-value={value}
+                onClick={(event) => {
+                    onClick && onClick(event);
+                    event.preventDefault();
+                } }>
                 {label}
-            </div>
+            </a>
         );
     }
 });

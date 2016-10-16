@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import ReactDOM from 'react-dom';
 import { on, off } from 'dom-lib';
-import Container from './Container';
+import DropdownToggle from './DropdownToggle';
 import Dropdown from './Dropdown';
 
 import FormGroupMixin from './mixins/FormGroupMixin';
@@ -69,7 +69,7 @@ const CheckListPicker = React.createClass({
     getInitialState() {
         const { options } = this.props;
         return {
-            active: false,
+            open: false,
             currentCheckedItems: this.getAllCheckedItems(options)
         };
     },
@@ -105,19 +105,25 @@ const CheckListPicker = React.createClass({
     },
     render() {
         const { options, height, getPlaceholder } = this.props;
-        const { active, currentCheckedItems, dropup } = this.state;
+        const { open, currentCheckedItems, dropup } = this.state;
         const updatedCheckList = this.getUpdatedCheckList(options);
         const placeholderText = getPlaceholder ? getPlaceholder(currentCheckedItems.map(i => i.value)) : `${currentCheckedItems.length} selected`;
         return (
-            <div className={'rsuite-Picker rsuite-CheckListPicker' + (active ? ' CheckListSelect--expand' : '') }>
-                <Container placeholder={placeholderText} onClick={this.toggleDropdown} />
-                { active && <Dropdown
+            <div className={'rsuite-Picker rsuite-CheckListPicker' + (open ? ' CheckListSelect--expand' : '') }>
+                <DropdownToggle
+                    placeholder={placeholderText}
+                    onClick={this.toggleDropdown}
+                    onKeyDown={this.handleKeyDown}
+                />
+                { open && <Dropdown
+                    ref='dropdown'
                     options={updatedCheckList}
                     height={height}
                     onSelect={this.handleCheck}
+                    onKeyDown={this.handleKeyDown}
+                    onClose={this.handleClose}
                     onClearSelected={this.handleClearSelected}
                     dropup={dropup}
-                    ref="dropdown"
                     multiple
                     />
                 }

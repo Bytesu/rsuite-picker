@@ -17,7 +17,7 @@
     box-sizing: border-box;
     text-align: left;
 
-    .selectContainer {
+    .toggle {
         position: relative;
         overflow: hidden;
         background-color: @container-bg;
@@ -26,8 +26,10 @@
         padding: @container-padding;
         cursor: pointer;
         outline: none;
+        width: 100%;
+        text-align: left;
 
-        .selectContainer-arrow {
+        .toggle-arrow {
             content: '';
             display: block;
             position: absolute;
@@ -40,14 +42,14 @@
     }
 
     &.expand{
-        .selectContainer{
+        .toggle{
             background: @container-bg !important;
             border-color: #dcdcdc !important;
         }
     }
 
     &.inverse{
-        .selectContainer {
+        .toggle {
             border-color: @B050;
             background-color: @B050;
 
@@ -80,9 +82,11 @@
         top: 100%;
         width: 100%;
         z-index: 1000;
+        left: 0;
 
         &.dropup {
             top: auto;
+            left: 0;
             bottom: 37px;
             border-top: @container-border;
             border-bottom: 0;
@@ -108,10 +112,17 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        display: block;
+        text-decoration: none;
 
         &:hover {
             background-color: @option-hover-bg;
             color: #575757;
+        }
+        &:focus{
+            background-color: @option-hover-bg;
+            color: #575757;
+            border: 1px dotted  @option-select-bg;
         }
 
         &.active {

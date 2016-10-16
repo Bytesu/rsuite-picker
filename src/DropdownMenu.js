@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { getHeight, scrollTop, hasClass, removeClass} from 'dom-lib';
+import { getHeight, scrollTop, hasClass, removeClass } from 'dom-lib';
 
 import OptionGroup from './OptionGroup';
 import Option from './Option';
@@ -13,7 +13,7 @@ const DropdownMenu = React.createClass({
         selected: PropTypes.any,
         items: PropTypes.array,
         height: PropTypes.number,
-        onClick: PropTypes.func,
+        onSelect: PropTypes.func,
         multiple: PropTypes.bool
     },
     componentWillReceiveProps(nextProps) {
@@ -29,7 +29,7 @@ const DropdownMenu = React.createClass({
             }
 
             const itemHeight = getHeight(options[0]) || 32;
-            const dropdownDOM = ReactDOM.findDOMNode(this.refs.menu);
+            const dropdownDOM = ReactDOM.findDOMNode(this);
             let activeIndex = 0;
 
             for (let i = 0; i < options.length; i++) {
@@ -46,13 +46,107 @@ const DropdownMenu = React.createClass({
 
         }
     },
-    renderOptions() {
-        const { selected, items, onClick } = this.props;
-        return items.map((item, idx) => {
-            if (item.items) {
-                return <OptionGroup key={idx} selected={selected} items={item.items} label={item.label} onClick={onClick} />;
+    getItemsAndActiveIndex() {
+        const items = this.getFocusableMenuItems();
+        const activeIndex = items.indexOf(document.activeElement);
+        return { items, activeIndex };
+    },
+    getFocusableMenuItems() {
+        const node = ReactDOM.findDOMNode(this);
+        if (!node) {
+            return [];
+        }
+        return Array.from(node.querySelectorAll('.selectOption'));
+    },
+    focusNextItem() {
+        const { items, activeIndex } = this.getItemsAndActiveIndex();
+        if (items.length === 0) {
+            return;
+        }
+
+        const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
+        items[nextIndex].focus();
+    },
+    focusPreviousItem() {
+        const { items, activeIndex } = this.getItemsAndActiveIndex();
+
+        if (items.length === 0) {
+            return;
+        }
+
+        const prevIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
+        items[prevIndex].focus();
+    },
+    getActiveElementOption(options, value) {
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].value === value) {
+                return options[i];
+            } else if (options[i].items && options[i].items.length) {
+                let active = this.getActiveElementOption(options[i].items, value);
+                if (active) {
+                    return active;
+                }
             }
-            return <Option  key={idx}  select={selected === item.value} label={item.label} onClick={onClick.bind(null, item) } />;
+        }
+        return false;
+    },
+    selectActiveItem() {
+        const { items, onSelect } = this.props;
+        const activeItem = document.activeElement;
+        const option = this.getActiveElementOption(items, activeItem.dataset.value);
+        onSelect(option);
+    },
+    handleKeyDown(event) {
+
+        const { onClose, multiple } = this.props;
+
+        switch (event.keyCode) {
+            //down
+            case 40:
+                this.focusNextItem();
+                event.preventDefault();
+                break;
+            //up
+            case 38:
+                this.focusPreviousItem();
+                event.preventDefault();
+                break;
+            //enter
+            case 13:
+                this.selectActiveItem();
+                !multiple && onClose && onClose(event);
+                event.preventDefault();
+                break;
+            //esc | tab
+            case 27:
+            case 9:
+                onClose && onClose(event);
+            default:
+        }
+
+        event.preventDefault();
+    },
+    renderOptions() {
+        const { selected, items, onSelect } = this.props;
+        return items.map((item, index) => {
+            if (item.items) {
+                return <OptionGroup
+                    key={index}
+                    selected={selected}
+                    items={item.items}
+                    label={item.label}
+                    onSelect={onSelect}
+                    onKeyDown={this.handleKeyDown}
+                    />;
+            }
+            return <Option
+                key={index}
+                onKeyDown={this.handleKeyDown}
+                selected={selected === item.value}
+                label={item.label}
+                value={item.value}
+                onClick={onSelect.bind(null, item)}
+                />;
         });
     },
     getCheckedItem(checkedItem) {
@@ -73,11 +167,11 @@ const DropdownMenu = React.createClass({
         });
         return Object.assign({}, checkedItem, {
             check: checked
-        });;
+        });
     },
     renderCheckList() {
 
-        const { items, onClick, onClearSelected } = this.props;
+        const { items, onSelect, onClearSelected } = this.props;
         const { checkedItems = []} = this.state;
         const options = items.filter((item) => {
             let flag = true;
@@ -89,16 +183,35 @@ const DropdownMenu = React.createClass({
             return flag;
         }).map((item, idx) => {
             if (item.items) {
-                return <CheckGroup key={idx} label={item.label} items={item.items} excludeItems={checkedItems} onClick={onClick} />;
+                return <CheckGroup
+                    key={idx}
+                    label={item.label}
+                    items={item.items}
+                    excludeItems={checkedItems}
+                    onSelect={onSelect}
+                    onKeyDown={this.handleKeyDown}
+                    />;
             }
-            return <CheckItem key={idx} check={item.check} label={item.label} onClick={onClick.bind(null, item) } />;
+            return <CheckItem
+                key={idx} check={item.check}
+                label={item.label}
+                value={item.value}
+                onSelect={onSelect.bind(null, item)}
+                onKeyDown={this.handleKeyDown}
+                />;
         });
 
         if (checkedItems.length) {
-            options.unshift(<hr key={Math.random() * 1E18}/>);
+            options.unshift(<hr key={Math.random() * 1E18} />);
             options.unshift(checkedItems.map((item, idx) => {
                 let newItem = this.getCheckedItem(item);
-                return <CheckItem key={idx} check={newItem.check } label={newItem.label} onClick={onClick.bind(null, newItem) } />;
+                return <CheckItem
+                    key={idx}
+                    check={newItem.check}
+                    label={newItem.label}
+                    onSelect={onSelect.bind(null, newItem)}
+                    onKeyDown={this.handleKeyDown}
+                    />;
             }));
             options.unshift(<div key={Math.random() * 1E18}><a onClick={onClearSelected} className="btnClear">Clear selected</a></div>);
         }
@@ -123,12 +236,13 @@ const DropdownMenu = React.createClass({
 
         this.setState({ checkedItems });
     },
+
     render() {
         const { multiple, height } = this.props;
         const classes = multiple ? 'checkList' : 'selectList';
         return (
-            <div className={classes} key  ref='menu'  style={{ maxHeight: height }}>
-                {multiple ? this.renderCheckList() : this.renderOptions() }
+            <div className={classes} style={{ maxHeight: height }}>
+                {multiple ? this.renderCheckList() : this.renderOptions()}
             </div>
         );
     }

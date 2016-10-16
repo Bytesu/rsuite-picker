@@ -10,7 +10,7 @@ const OptionGroup = React.createClass({
         toggleClass(ReactDOM.findDOMNode(this.refs.title).parentNode, 'contract');
     },
     render() {
-        const { selected, label, items, onClick } = this.props;
+        const { selected, label, items, onSelect, onKeyDown } = this.props;
         return (
             <div className="selectGroup">
                 <div className="selectGroup-title" ref='title' onClick={this.handleClickGroup}>
@@ -18,8 +18,15 @@ const OptionGroup = React.createClass({
                     <span className="arrow"></span>
                 </div>
                 {
-                    items.map((item, idx) =>
-                        <Option key={idx} select={selected === item.value} label={item.label} onClick={onClick.bind(null, item) } />
+                    items.map((item, index) =>
+                        <Option
+                            key={index}
+                            onKeyDown={onKeyDown}
+                            selected={selected === item.value}
+                            label={item.label}
+                            value={item.value}
+                            onClick={onSelect.bind(null, item)}
+                            />
                     )
                 }
             </div>
