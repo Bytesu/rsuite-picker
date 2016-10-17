@@ -7,7 +7,7 @@ import SearchBar from '../src/SearchBar';
 
 describe('SearchBar', () => {
 
-    it('Should output a input', () => {
+    it('Should output a <input>', () => {
 
         let instance = ReactTestUtils.renderIntoDocument(
             <SearchBar />
