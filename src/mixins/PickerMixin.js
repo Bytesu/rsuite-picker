@@ -3,11 +3,7 @@ import ReactDOM from 'react-dom';
 import { on } from 'dom-lib';
 
 const PickerMixin = {
-    getDefaultProps() {
-        return {
-            options: []
-        };
-    },
+
     handleDocumentClick(e) {
         if (!ReactDOM.findDOMNode(this).contains(e.target)) {
             this.setState({ open: false });

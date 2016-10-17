@@ -26,10 +26,13 @@ export default React.createClass({
     render() {
         const { multiple, ...props } = this.props;
 
+
+
         const customProps = {
             ...props,
             onChange:this.handleChange
         };
+
 
         if(multiple){
             return <CheckListPicker {...customProps} />;

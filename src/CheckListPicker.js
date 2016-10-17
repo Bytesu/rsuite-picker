@@ -4,12 +4,10 @@ import ReactDOM from 'react-dom';
 import { on, off } from 'dom-lib';
 import DropdownToggle from './DropdownToggle';
 import Dropdown from './Dropdown';
-
-import FormGroupMixin from './mixins/FormGroupMixin';
 import PickerMixin from './mixins/PickerMixin';
 
 const CheckListPicker = React.createClass({
-    mixins: [FormGroupMixin, PickerMixin],
+    mixins: [PickerMixin],
     propTypes: {
         options: PropTypes.array,
         onChange: PropTypes.func,

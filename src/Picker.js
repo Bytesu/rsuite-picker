@@ -91,6 +91,7 @@ const Picker = React.createClass({
 
     render() {
 
+
         const { options, height, className, inverse} = this.props;
         const { open, currentSelected, dropup } = this.state;
         const formattedOptions = options.map(this.formatOption);

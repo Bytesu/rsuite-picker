@@ -145,7 +145,7 @@ const DropdownMenu = React.createClass({
                 selected={selected === item.value}
                 label={item.label}
                 value={item.value}
-                onClick={onSelect.bind(null, item)}
+                onSelect={onSelect.bind(null, item)}
                 />;
         });
     },
@@ -243,7 +243,7 @@ const DropdownMenu = React.createClass({
         const classes = multiple ? 'checkList' : 'selectList';
         return (
             <div className={classes} style={{ maxHeight: height }}>
-                {multiple ? this.renderCheckList() : this.renderOptions()}
+                { multiple ? this.renderCheckList() : this.renderOptions() }
             </div>
         );
     }

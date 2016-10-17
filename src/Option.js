@@ -8,10 +8,10 @@ const Option = React.createClass({
             React.PropTypes.string,
             React.PropTypes.element
         ]),
-        onClick: React.PropTypes.func
+        onSelect: React.PropTypes.func
     },
     render() {
-        const { selected, label, value,  onClick, ...props } = this.props;
+        const { selected, label, value,  onSelect, ...props } = this.props;
         return (
             <a
                 {...props}
@@ -20,9 +20,9 @@ const Option = React.createClass({
                 role="menuitem"
                 data-value={value}
                 onClick={(event) => {
-                    onClick && onClick(event);
+                    onSelect && onSelect(event);
                     event.preventDefault();
-                } }>
+                }} >
                 {label}
             </a>
         );
