@@ -1,5 +1,5 @@
 import React from 'react';
-import Picker from '../src/Picker';
+import Picker from '../src';
 import users from './data/users';
 
 export default React.createClass({
