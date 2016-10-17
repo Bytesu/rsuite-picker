@@ -5,7 +5,6 @@ import { on } from 'dom-lib';
 const PickerMixin = {
     getDefaultProps() {
         return {
-            height: 320,
             options: []
         };
     },

@@ -4,11 +4,10 @@ import ReactDOM from 'react-dom';
 import DropdownToggle from './DropdownToggle';
 import Dropdown from './Dropdown';
 
-import FormGroupMixin from './mixins/FormGroupMixin';
 import PickerMixin from './mixins/PickerMixin';
 
 const Picker = React.createClass({
-    mixins: [FormGroupMixin, PickerMixin],
+    mixins: [PickerMixin],
     propTypes: {
         options: PropTypes.array,
         onChange: PropTypes.func,
@@ -65,35 +64,29 @@ const Picker = React.createClass({
     },
 
     getInitialState() {
-        const { value: groupValue } = this.getFormGroup();
         const { value, options } = this.props;
 
         return {
             open: false,
-            currentSelected: this.getOptionByValue(groupValue || value, options) || this.getDefaultSelect(options)
+            currentSelected: this.getOptionByValue(value, options) || this.getDefaultSelect(options)
         };
     },
 
     componentWillReceiveProps(nextProps) {
         const { value, options } = nextProps;
-        const { value: groupValue } = this.getFormGroup();
         this.setState({
             open: false,
-            currentSelected: this.getOptionByValue(groupValue || value, options) || this.getDefaultSelect(options)
+            currentSelected: this.getOptionByValue(value, options) || this.getDefaultSelect(options)
         });
     },
     handleSelect(item, open = false) {
         const { onChange } = this.props;
-        const { onChange: onGroupChange } = this.getFormGroup();
         this.setState({
             currentSelected: item,
             open
         });
 
-        let currentSelectedValue = item.value;
-
-        onChange && onChange(currentSelectedValue);
-        onGroupChange && onGroupChange(item.value);
+        onChange && onChange(item.value);
     },
 
     render() {

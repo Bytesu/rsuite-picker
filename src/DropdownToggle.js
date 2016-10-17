@@ -1,7 +1,7 @@
 import React  from 'react';
 
 const DropdownToggle = ({ placeholder = '', onClick, onKeyDown } = props) => (
-    <button className="toggle" onClick={onClick} onKeyDown={onKeyDown}>
+    <button type="button" className="toggle" onClick={onClick} onKeyDown={onKeyDown}>
         <div className="toggle-placeholder" >{ placeholder }</div>
         <span className="toggle-arrow"></span>
     </button>

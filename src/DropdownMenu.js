@@ -209,6 +209,7 @@ const DropdownMenu = React.createClass({
                     key={idx}
                     check={newItem.check}
                     label={newItem.label}
+                    value={item.value}
                     onSelect={onSelect.bind(null, newItem)}
                     onKeyDown={this.handleKeyDown}
                     />;
