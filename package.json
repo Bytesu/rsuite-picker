@@ -6,7 +6,9 @@
     "dev": "NODE_ENV=development webpack-dev-server --hot --inline --progress --colors --port 3000 --host 0.0.0.0 --config webpack.dev.config.js",
     "docs": "rm -rf assets &&  NODE_ENV=production webpack --progress -colors",
     "build": "rm -rf lib && babel src --out-dir lib",
-    "test": "karma start"
+    "tdd": "karma start",
+    "lint": "eslint src  *.js",
+    "test": "npm run lint && karma start --single-run"
   },
   "main": "lib/index.js",
   "author": "Simon Guo <simonguo.2009@gmail.com>",
