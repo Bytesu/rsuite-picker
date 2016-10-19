@@ -15,6 +15,7 @@ var webpackConfig = {
 };
 
 module.exports = function(config) {
+    const { env } = process;
     config.set({
         basePath: '',
         files: ['test/index.js'],
@@ -24,7 +25,7 @@ module.exports = function(config) {
         ],
         colors: true,
         reporters:['mocha'],
-        browsers: ['PhantomJS'],
+        browsers: env.BROWSER ? env.BROWSER.split(',') : ['Chrome'],
         logLevel: config.LOG_INFO,
         preprocessors: {
             'test/index.js': ['webpack'],
