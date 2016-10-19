@@ -3,7 +3,7 @@ node_js:
   - stable
 
 env:
-  - BROWSER=ChromeCi
+  - BROWSER=Chrome
   - BROWSER=Firefox
 
 

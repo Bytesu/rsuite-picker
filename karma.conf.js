@@ -14,7 +14,7 @@ var webpackConfig = {
     devtool: 'eval'
 };
 
-module.exports = function(config) {
+module.exports = function (config) {
     const { env } = process;
     config.set({
         basePath: '',
@@ -24,8 +24,8 @@ module.exports = function(config) {
             'sinon-chai'
         ],
         colors: true,
-        reporters:['mocha'],
-        browsers: env.BROWSER ? env.BROWSER.split(',') : ['Chrome'],
+        reporters: ['mocha'],
+
         logLevel: config.LOG_INFO,
         preprocessors: {
             'test/index.js': ['webpack'],
@@ -33,6 +33,7 @@ module.exports = function(config) {
         webpack: webpackConfig,
         webpackMiddleware: {
             noInfo: true
-        }
+        },
+        browsers: env.BROWSER ? env.BROWSER.split(',') : ['Chrome']
     });
 };
