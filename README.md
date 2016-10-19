@@ -1,4 +1,4 @@
-# rsuite-picker
+# rsuite-picker  [![Travis][build-badge]][build] [![npm][npm-badge]][npm]
 
 A react component for replacing default select and dropdown.
 
