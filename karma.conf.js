@@ -34,6 +34,12 @@ module.exports = function (config) {
         webpackMiddleware: {
             noInfo: true
         },
-        browsers: env.BROWSER ? env.BROWSER.split(',') : ['Chrome']
+        browsers: env.BROWSER ? env.BROWSER.split(',') : ['Chrome'],
+        customLaunchers: {
+            ChromeCi: {
+                base: 'Chrome',
+                flags: ['--no-sandbox'],
+            },
+        }
     });
 };
