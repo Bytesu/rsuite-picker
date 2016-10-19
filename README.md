@@ -41,3 +41,10 @@ export default React.createClass({
 
 ```
 
+
+[build-badge]: https://travis-ci.org/rsuite/rsuite-picker.svg?branch=master
+[build]: https://travis-ci.org/rsuite/rsuite-picker
+
+
+[npm-badge]: https://badge.fury.io/js/rsuite-picker.svg
+[npm]: http://badge.fury.io/js/rsuite-picker
