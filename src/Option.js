@@ -20,8 +20,8 @@ const Option = React.createClass({
                 role="menuitem"
                 data-value={value}
                 onClick={(event) => {
-                    onSelect && onSelect(event);
                     event.preventDefault();
+                    onSelect && onSelect(event);
                 }} >
                 {label}
             </a>

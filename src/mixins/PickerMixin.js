@@ -34,7 +34,6 @@ const PickerMixin = {
     handleKeyDown(event) {
 
         const { dropdown } = this.refs;
-
         switch (event.keyCode) {
             //down
             case 40:

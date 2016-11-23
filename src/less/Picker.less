@@ -3,7 +3,7 @@
     @container-bg: #FFF;
     @container-fg: #333;
     @container-border: 1px solid #CCC;
-    @container-padding: 8px 26px 8px 18px;
+    @container-padding: 7px 26px 7px 18px;
     @arrow-color: #575757;
     @arrow-right-spacing: 17px;
     @arrow-top-spacing: 14px;
@@ -29,6 +29,14 @@
         width: 100%;
         text-align: left;
 
+         &-placeholder{
+            white-space: nowrap;
+            margin-right: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 22px;
+        }
+
         .toggle-arrow {
             content: '';
             display: block;
@@ -39,14 +47,27 @@
             border-width: @arrow-size @arrow-size 0;
             border-style: solid;
         }
+
+
     }
 
     &.expand{
         .toggle{
+            z-index: 101;
             background: @container-bg !important;
             border-color: #dcdcdc !important;
+            border-bottom-width: 0;
+        }
+
+        &.rsuite-Picker--dropup{
+            .toggle{
+                border-top-width: 0;
+                border-bottom-width: 1px;
+            }
         }
     }
+
+
 
     &.inverse{
         .toggle {
@@ -59,9 +80,6 @@
 
             &-placeholder {
                 color: @B900;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
             }
         }
     }
@@ -74,15 +92,15 @@
         .box-shadow();
         background-color: @container-bg;
         border: @container-border;
-        border-top: none;
         padding: 0px;
         margin-top: -1px;
         overflow-y: auto;
         position: absolute;
         top: 100%;
         width: 100%;
-        z-index: 1000;
+        z-index: 100;
         left: 0;
+        min-width: 160px;
 
         &.dropup {
             top: auto;

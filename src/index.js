@@ -21,16 +21,14 @@ export default React.createClass({
 
         onFormGroupChange && onFormGroupChange(value);
         onChange && onChange(value);
-
     },
     render() {
+
         const { multiple, ...props } = this.props;
-
-
-
-        const customProps = {
+        const { value } = this.getFormGroup();
+        let customProps = {
             ...props,
-            onChange:this.handleChange
+            onChange: this.handleChange
         };
 
 
@@ -38,9 +36,10 @@ export default React.createClass({
             return <CheckListPicker {...customProps} />;
         }
 
-        const { value } = this.getFormGroup();
-        return <Picker {...Object.assign({}, customProps, {
-            value
-        })} />;
+        if(value){
+            customProps = Object.assign({}, customProps, { value });
+        }
+
+        return <Picker {...customProps} />;
     }
 });

@@ -9,11 +9,12 @@ import PickerMixin from './mixins/PickerMixin';
 const Picker = React.createClass({
     mixins: [PickerMixin],
     propTypes: {
-        options: PropTypes.array,
+        options: PropTypes.array.isRequired,
         onChange: PropTypes.func,
         height: PropTypes.number,
         dropup: PropTypes.bool,
-        value: PropTypes.any    // default value
+        value: PropTypes.any,
+        defaultValue: PropTypes.any
     },
     formatOption(option) {
         if (typeof (option) === 'string') {
@@ -64,20 +65,23 @@ const Picker = React.createClass({
     },
 
     getInitialState() {
-        const { value, options } = this.props;
+        const { defaultValue, options = []} = this.props;
 
         return {
             open: false,
-            currentSelected: this.getOptionByValue(value, options) || this.getDefaultSelect(options)
+            currentSelected: this.getOptionByValue(defaultValue, options) || this.getDefaultSelect(options)
         };
     },
 
     componentWillReceiveProps(nextProps) {
-        const { value, options } = nextProps;
-        this.setState({
-            open: false,
-            currentSelected: this.getOptionByValue(value, options) || this.getDefaultSelect(options)
-        });
+        const { value, options = []} = nextProps;
+
+        if (value) {
+            this.setState({
+                open: false,
+                currentSelected: this.getOptionByValue(value, options) || this.getDefaultSelect(options)
+            });
+        }
     },
     handleSelect(item, open = false) {
         const { onChange } = this.props;
@@ -85,17 +89,17 @@ const Picker = React.createClass({
             currentSelected: item,
             open
         });
-
         onChange && onChange(item.value);
     },
 
     render() {
 
 
-        const { options, height, className, inverse} = this.props;
+        const { options = [], height, className, inverse} = this.props;
         const { open, currentSelected, dropup } = this.state;
         const formattedOptions = options.map(this.formatOption);
         const classes = classNames('rsuite-Picker', className, {
+            'rsuite-Picker--dropup': dropup,
             'expand': open,
             'inverse': inverse
         });

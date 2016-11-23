@@ -79,7 +79,7 @@ const DropdownMenu = React.createClass({
     },
     getActiveElementOption(options, value) {
         for (let i = 0; i < options.length; i++) {
-            if (options[i].value === value) {
+            if (options[i].value + '' === value + '') {
                 return options[i];
             } else if (options[i].items && options[i].items.length) {
                 let active = this.getActiveElementOption(options[i].items, value);
@@ -94,6 +94,7 @@ const DropdownMenu = React.createClass({
         const { items, onSelect } = this.props;
         const activeItem = document.activeElement;
         const option = this.getActiveElementOption(items, activeItem.dataset.value);
+
         onSelect(option);
     },
     handleKeyDown(event) {
@@ -219,13 +220,11 @@ const DropdownMenu = React.createClass({
 
         return options;
     },
+    setCheckedItems(items) {
 
-    componentWillMount() {
-        const { items } = this.props;
         let checkedItems = items.filter((item) => {
             return item.check;
         });
-
         items.forEach((group) => {
             if (group.items && group.items.length) {
                 let subItems = group.items.filter((item) => {
@@ -237,13 +236,37 @@ const DropdownMenu = React.createClass({
 
         this.setState({ checkedItems });
     },
+    _getItemsLength(items = []) {
+        let length = items.length;
 
+        const size = items.map((item) => {
+            return item.items ? item.items.length : 0;
+        });
+
+        if (size.length) {
+            length += size.reduce((previous, current) => {
+                return previous + current;
+            });
+        }
+
+        return length;
+
+    },
+    componentWillMount() {
+        this.setCheckedItems(this.props.items);
+    },
+    componentWillReceiveProps(nextProps) {
+
+        if (this._getItemsLength(nextProps.items) !== this._getItemsLength(this.props.items)) {
+            this.setCheckedItems(nextProps.items);
+        }
+    },
     render() {
         const { multiple, height } = this.props;
         const classes = multiple ? 'checkList' : 'selectList';
         return (
             <div className={classes} style={{ maxHeight: height }}>
-                { multiple ? this.renderCheckList() : this.renderOptions() }
+                {multiple ? this.renderCheckList() : this.renderOptions()}
             </div>
         );
     }
