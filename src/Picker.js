@@ -95,13 +95,14 @@ const Picker = React.createClass({
     render() {
 
 
-        const { options = [], height, className, inverse} = this.props;
+        const { options = [], height, className, inverse, disabled} = this.props;
         const { open, currentSelected, dropup } = this.state;
         const formattedOptions = options.map(this.formatOption);
         const classes = classNames('rsuite-Picker', className, {
             'rsuite-Picker--dropup': dropup,
             'expand': open,
-            'inverse': inverse
+            'inverse': inverse,
+            'disabled': disabled,
         });
 
         return (

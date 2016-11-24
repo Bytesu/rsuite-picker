@@ -10,3 +10,5 @@ dropup                | bool              | false |  After you click, expanding 
 value                 | boolean           |       |  Default value of single pickers.
 getPlaceholder        | function          |       |  Custom placeholder.
 onChange              | function          |       |  Callback function of after value change.
+disabled              | bool              |       |
+inverse               | bool              |       |

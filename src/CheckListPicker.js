@@ -102,7 +102,7 @@ const CheckListPicker = React.createClass({
         });
     },
     render() {
-        const { options, height, getPlaceholder, className, inverse } = this.props;
+        const { options, height, getPlaceholder, className, inverse, disabled } = this.props;
         const { open, currentCheckedItems, dropup } = this.state;
         const updatedCheckList = this.getUpdatedCheckList(options);
         const placeholderText = getPlaceholder ? getPlaceholder(currentCheckedItems.map(i => i.value)) : `${currentCheckedItems.length} selected`;
@@ -110,7 +110,8 @@ const CheckListPicker = React.createClass({
         const classes = classNames('rsuite-Picker rsuite-CheckListPicker', className, {
             'rsuite-Picker--dropup': dropup,
             'expand CheckListSelect--expand': open,
-            'inverse': inverse
+            'inverse': inverse,
+            'disabled': disabled
         });
 
         return (
@@ -119,8 +120,8 @@ const CheckListPicker = React.createClass({
                     placeholder={placeholderText}
                     onClick={this.toggleDropdown}
                     onKeyDown={this.handleKeyDown}
-                />
-                { open && <Dropdown
+                    />
+                {open && <Dropdown
                     ref='dropdown'
                     options={updatedCheckList}
                     height={height}

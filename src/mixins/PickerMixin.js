@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import { on } from 'dom-lib';
 
 const PickerMixin = {
-
+    propTypes: {
+        disabled: PropTypes.bool
+    },
     handleDocumentClick(e) {
         if (!ReactDOM.findDOMNode(this).contains(e.target)) {
             this.setState({ open: false });
@@ -13,6 +15,10 @@ const PickerMixin = {
         this.setState({ open: false });
     },
     toggleDropdown() {
+        const { disabled } = this.props;
+        if (disabled) {
+            return;
+        }
         this.setState({ open: !this.state.open });
     },
     autoAdjustDropdownPosition() {
