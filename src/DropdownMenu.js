@@ -16,6 +16,9 @@ const DropdownMenu = React.createClass({
         onSelect: PropTypes.func,
         multiple: PropTypes.bool
     },
+    contextTypes: {
+        locale: PropTypes.object.isRequired
+    },
     componentWillReceiveProps(nextProps) {
 
         if (!nextProps.multiple && nextProps.selected !== this.props.selected) {
@@ -173,6 +176,7 @@ const DropdownMenu = React.createClass({
     renderCheckList() {
 
         const { items, onSelect, onClearSelected } = this.props;
+        const { clearSelected } = this.context.locale;
         const { checkedItems = []} = this.state;
         const options = items.filter((item) => {
             let flag = true;
@@ -215,7 +219,7 @@ const DropdownMenu = React.createClass({
                     onKeyDown={this.handleKeyDown}
                     />;
             }));
-            options.unshift(<div key={Math.random() * 1E18}><a onClick={onClearSelected} className="btnClear">Clear selected</a></div>);
+            options.unshift(<div key={Math.random() * 1E18}><a onClick={onClearSelected} className="btnClear">{ clearSelected || 'Clear selected' }</a></div>);
         }
 
         return options;

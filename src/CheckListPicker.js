@@ -11,8 +11,10 @@ const CheckListPicker = React.createClass({
     propTypes: {
         options: PropTypes.array,
         onChange: PropTypes.func,
-        getPlaceholder: PropTypes.func,
         height: PropTypes.number
+    },
+    contextTypes: {
+        locale: PropTypes.object.isRequired
     },
     formatItem(item) {
         if (typeof (item) === 'string') {
@@ -102,11 +104,12 @@ const CheckListPicker = React.createClass({
         });
     },
     render() {
-        const { options, height, getPlaceholder, className, inverse, disabled } = this.props;
-        const { open, currentCheckedItems, dropup } = this.state;
-        const updatedCheckList = this.getUpdatedCheckList(options);
-        const placeholderText = getPlaceholder ? getPlaceholder(currentCheckedItems.map(i => i.value)) : `${currentCheckedItems.length} selected`;
 
+        const { options, height, className, inverse, disabled } = this.props;
+        const { open, currentCheckedItems, dropup } = this.state;
+        const { placeholder } = this.context.locale;
+        const updatedCheckList = this.getUpdatedCheckList(options);
+        const placeholderText = placeholder ? placeholder.replace(/\${\ *length\ *}/g, currentCheckedItems.length) : `${currentCheckedItems.length} selected`;
         const classes = classNames('rsuite-Picker rsuite-CheckListPicker', className, {
             'rsuite-Picker--dropup': dropup,
             'expand CheckListSelect--expand': open,

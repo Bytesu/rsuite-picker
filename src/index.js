@@ -8,12 +8,24 @@ export default React.createClass({
     propTypes: {
         multiple: PropTypes.bool,
         onChange: PropTypes.func,
-        height: PropTypes.number
+        height: PropTypes.number,
+        locale: PropTypes.object
     },
-     getDefaultProps() {
+    childContextTypes: {
+        locale: PropTypes.object
+    },
+    getDefaultProps() {
         return {
-            height: 320
+            height: 320,
+            locale:{
+                placeholder:'${length} selected',
+                clearSelected: 'Clear Selected'
+            }
         };
+    },
+    getChildContext() {
+        const { locale } = this.props;
+        return { locale };
     },
     handleChange(value){
         const { onChange } = this.props;

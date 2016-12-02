@@ -12,3 +12,4 @@ getPlaceholder        | function          |       |  Custom placeholder.
 onChange              | function          |       |  Callback function of after value change.
 disabled              | bool              |       |
 inverse               | bool              |       |
+locale                | object            | ` { clearSelected:'Clear selected', placeholder: '${length} selected' } ` |
