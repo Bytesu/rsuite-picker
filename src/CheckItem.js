@@ -30,4 +30,5 @@ const CheckItem = React.createClass({
         );
     }
 });
+
 export default CheckItem;

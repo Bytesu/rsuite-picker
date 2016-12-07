@@ -132,23 +132,30 @@ const DropdownMenu = React.createClass({
     },
     renderOptions() {
         const { selected, items, onSelect } = this.props;
+
         return items.map((item, index) => {
+            let { label, items, value, ...other } = item;
+
+
+
             if (item.items) {
                 return <OptionGroup
+                    {...other}
                     key={index}
                     selected={selected}
-                    items={item.items}
-                    label={item.label}
+                    items={items}
+                    label={label}
                     onSelect={onSelect}
                     onKeyDown={this.handleKeyDown}
                     />;
             }
             return <Option
+                {...other}
                 key={index}
                 onKeyDown={this.handleKeyDown}
-                selected={selected === item.value}
-                label={item.label}
-                value={item.value}
+                selected={selected === value}
+                label={label}
+                value={value}
                 onSelect={onSelect.bind(null, item)}
                 />;
         });
@@ -187,20 +194,26 @@ const DropdownMenu = React.createClass({
             });
             return flag;
         }).map((item, idx) => {
+
+            let { label, items, value, check, ...other } = item;
+
             if (item.items) {
                 return <CheckGroup
+                    {...other}
                     key={idx}
-                    label={item.label}
-                    items={item.items}
+                    label={label}
+                    items={items}
                     excludeItems={checkedItems}
                     onSelect={onSelect}
                     onKeyDown={this.handleKeyDown}
                     />;
             }
             return <CheckItem
-                key={idx} check={item.check}
-                label={item.label}
-                value={item.value}
+                {...other}
+                key={idx}
+                check={check}
+                label={label}
+                value={value}
                 onSelect={onSelect.bind(null, item)}
                 onKeyDown={this.handleKeyDown}
                 />;

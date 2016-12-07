@@ -14,6 +14,7 @@ export default React.createClass({
                 items: items.map((item) => {
                     return {
                         value: item.value,
+                        title: item.label,
                         label: <div><i className="fa fa-user"></i>  {item.label} </div>
                     };
                 })

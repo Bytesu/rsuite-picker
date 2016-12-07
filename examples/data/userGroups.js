@@ -6,6 +6,7 @@ export default [
         items: [
             {
                 label: 'Eugenia',
+                title: 'Eugenia',
                 value: 'Eugenia'
             },
             {

@@ -33,11 +33,14 @@ const CheckGroup = React.createClass({
         }
 
         checkList = checkList.map((item, idx) => {
+
+            const { label, value, check , ...other } = item;
             return <CheckItem
+                {...other}
                 key={idx}
-                check={item.check}
-                label={item.label}
-                value={item.value}
+                check={check}
+                label={label}
+                value={value}
                 onSelect={onSelect.bind(null, item)}
                 onKeyDown={onKeyDown}
                 />;

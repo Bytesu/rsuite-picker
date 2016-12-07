@@ -10,14 +10,17 @@ const OptionGroup = React.createClass({
     },
     renderOption(item, index){
 
-        const { selected, onSelect, onKeyDown } = this.props;
+        const { selected, onSelect, onKeyDown, } = this.props;
+        const { label, value , ...other } = item;
+
         return (
             <Option
+                {...other}
                 key={index}
                 onKeyDown={onKeyDown}
-                selected={selected === item.value}
-                label={item.label}
-                value={item.value}
+                selected={selected === value}
+                label={label}
+                value={value}
                 onSelect={ onSelect && onSelect.bind(null, item) }
                 />
         );

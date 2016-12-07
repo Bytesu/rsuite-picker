@@ -14,6 +14,7 @@ const Option = React.createClass({
         const { selected, label, value,  onSelect, ...props } = this.props;
         return (
             <a
+
                 {...props}
                 className={'selectOption' + (selected ? ' active' : '')}
                 href=''
