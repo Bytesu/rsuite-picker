@@ -10,7 +10,7 @@ export default [
                 value: 'Eugenia'
             },
             {
-                label: 'Kariane',
+                label: 'Kariane-Kariane-Kariane-Kariane-Kariane KarianeKarianeKarianeKarianeKarianeKarianeKarianeKarianeKarianeKarianeKarianeKarianeKarianeKarianeKarianeKarianeKarianeKariane KarianeKarianeKarianeKariane',
                 value: 'Kariane'
             },
             {

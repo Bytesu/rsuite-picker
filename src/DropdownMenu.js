@@ -131,13 +131,12 @@ const DropdownMenu = React.createClass({
         event.preventDefault();
     },
     renderOptions() {
+
         const { selected, items, onSelect } = this.props;
 
         return items.map((item, index) => {
+
             let { label, items, value, ...other } = item;
-
-
-
             if (item.items) {
                 return <OptionGroup
                     {...other}
@@ -149,6 +148,7 @@ const DropdownMenu = React.createClass({
                     onKeyDown={this.handleKeyDown}
                     />;
             }
+
             return <Option
                 {...other}
                 key={index}
@@ -159,6 +159,7 @@ const DropdownMenu = React.createClass({
                 onSelect={onSelect.bind(null, item)}
                 />;
         });
+
     },
     getCheckedItem(checkedItem) {
         const { items } = this.props;

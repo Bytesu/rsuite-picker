@@ -11,11 +11,12 @@ const Option = React.createClass({
         onSelect: React.PropTypes.func
     },
     render() {
-        const { selected, label, value,  onSelect, ...props } = this.props;
+        const { selected, label, value,  onSelect, title, ...props } = this.props;
         return (
             <a
 
                 {...props}
+                title = { title || (typeof label === 'string' ? label : ''  ) }
                 className={'selectOption' + (selected ? ' active' : '')}
                 href=''
                 role="menuitem"

@@ -12,11 +12,12 @@ const CheckItem = React.createClass({
         onSelect: React.PropTypes.func
     },
     render() {
-        const { check, label, value, onSelect, ...props } = this.props;
+        const { check, label, value, onSelect, title, ...props } = this.props;
 
         return (
             <a
                 { ...props }
+                title = { title || (typeof label === 'string' ? label : ''  ) }
                 className={'selectOption checkItem' + (check ? ' check' : '')}
                 href=''
                 data-value={value}
