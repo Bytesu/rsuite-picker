@@ -99,9 +99,14 @@ const CheckListPicker = React.createClass({
         onChange && onChange(nextCheckedItem.map(i => i.value));
     },
     handleClearSelected() {
+
+        const { onChange } = this.props;
+        onChange && onChange([]);
+
         this.setState({
             currentCheckedItems: []
         });
+
     },
     render() {
 
